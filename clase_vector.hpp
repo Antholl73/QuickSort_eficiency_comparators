@@ -12,7 +12,7 @@ private:
   vector_data_type *data_;
 
 public:
-  Vector(ulong size);
+  Vector(ulong size = 0);
   ~Vector();
   Vector(VectorCT const &v);
 

@@ -3,13 +3,23 @@
 #include "clase_vector.hpp"
 #include <utility> //habilita std::swap
 
-template<class data_type>
-long partition(Vector<data_type> &v, ulong init, ulong end) {
-  data_type pivot = v[0];
+template<class T>
+struct Less {
+  bool operator()(const T &a, const T &b) { return a < b; }
+};
+
+template<class T>
+struct Greater {
+  bool operator()(const T &a, const T &b) { return a > b; }
+};
+
+template<class data_type, class compare>
+long partition(Vector<data_type> &v, long init, long end, compare comp) {
+  data_type pivot = v[end];
   long i = init - 1;
 
   for (long j = init; j <= end - 1; j++) {
-    if (v[j] < pivot) {
+    if (comp(v[j], pivot)) {
       i++;
       std::swap(v[i], v[j]);
     }
@@ -19,21 +29,22 @@ long partition(Vector<data_type> &v, ulong init, ulong end) {
   return (i + 1);
 }
 
-template<class data_type>
-void recursive_quick_sort(Vector<data_type> &v, long init, ulong end) {
+template<class data_type, class compare>
+void recursive_quick_sort(Vector<data_type> &v, long init, long end,
+                          compare comp) {
   if (init < end) {
-    long pivot = partition(v, init, end);
+    long pivot = partition(v, init, end, comp);
 
-    recursive_quick_sort(v, init, pivot - 1);
-    recursive_quick_sort(v, pivot + 1, end);
+    recursive_quick_sort(v, init, pivot - 1, comp);
+    recursive_quick_sort(v, pivot + 1, end, comp);
   }
 }
 
-template<class data_type>
-void quick_sort(Vector<data_type> &v) {
+template<class data_type, class compare = Less<data_type>>
+void quick_sort(Vector<data_type> &v, compare comp = compare()) {
   if (v.get_size() > 0) {
 
-    recursive_quick_sort(v, 0, static_cast<long>(v.get_size() - 1));
+    recursive_quick_sort(v, 0, static_cast<long>(v.get_size() - 1), comp);
   }
 }
 

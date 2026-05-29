@@ -17,6 +17,10 @@ int main() {
   archivo_csv << "ELEMENTOS, PIVOTE_INICIO, PIVOTE_FINAL, PIVOTE MEDIO, PIVOTE "
                  "RANDOM, PIVOTE MEDIA DE 3\n";
 
+  // 1. Imprimimos la cabecera en la consola ANTES del bucle
+  std::cout << "\nIniciando pruebas de rendimiento de QuickSort...\n";
+  print_table_header();
+
   ulong size = 1;
 
   while (size <= 500001) {
@@ -78,6 +82,10 @@ int main() {
     archivo_csv << size << "," << tiempo1.count() << "," << tiempo2.count()
                 << "," << tiempo3.count() << "," << tiempo4.count() << ","
                 << tiempo5.count() << "\n";
+
+    // 2. Imprimimos la fila en la consola EN TIEMPO DE EJECUCIÓN
+    print_table_row(size, tiempo1.count(), tiempo2.count(), tiempo3.count(),
+                    tiempo4.count(), tiempo5.count());
 
     size += 10000;
   }

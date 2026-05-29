@@ -1,61 +1,30 @@
 #include <assert.h>
 #include <iostream>
-#include <ostream>
 using namespace std;
 typedef unsigned long ulong;
 
-template <class dataType> class Vector {
-private:
-  ulong size_;
-  dataType *data_;
+int partition(int *array, ulong init, ulong end) {
+  int pivot = *(array);
+  ulong i = init + 1;
 
-public:
-  Vector(ulong size);
-  ~Vector();
-  Vector(const Vector &v);
-
-  Vector &operator=(const Vector &v2);
-
-  friend ostream &operator<<(ostream &os, const Vector<dataType> &v) {
-    for (ulong i = 0; i < v.size_; i++) {
-      os << *(v.data_ + i) << " ";
+  for (int j = i; j <= end; j++) {
+    if (*(array + j) < pivot) {
+      swap(*(array + j), *(array + i));
+      i++;
     }
-    os << endl;
-    return os;
   }
-};
 
-template <class dataType> Vector<dataType>::Vector(ulong size) : size_(size) {
-  data_ = new dataType[size_];
+  swap(*(array), *(array + i - 1));
+
+  return i - 1;
 }
 
-template <class dataType> Vector<dataType>::~Vector() { delete[] data_; }
-
-template <class dataType> Vector<dataType>::Vector(const Vector<dataType> &v2) {
-  size_ = v2.size_;
-  data_ = new dataType[v2.size_];
-
-  for (ulong i = 0; i < v2.size_; i++) {
-    *(data_ + i) = *(v2.data_ + i);
+void quickSort(int *array, ulong init, ulong end) {
+  if (init < end) {
+    int pivot = partition(array, init, end);
+    quickSort(array, init, pivot - 1);
+    quickSort(array, pivot + 1, end);
   }
-}
-
-template <class dataType>
-Vector<dataType> &Vector<dataType>::operator=(const Vector<dataType> &v2) {
-  if (this == &v2) {
-    return *this;
-  }
-  if (size_ != v2.size_) {
-    delete[] data_;
-    size_ = v2.size_;
-
-    data_ = new dataType[size_];
-  }
-
-  for (ulong i = 0; i < size_; i++) {
-    *(data_ + i) = *(v2.data_ + i);
-  }
-  return *this;
 }
 
 int main(int argc, char *argv[]) {

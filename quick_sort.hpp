@@ -4,11 +4,11 @@
 #include <utility> //habilita std::swap
 
 template<class data_type>
-ulong partition(Vector<data_type> &v, ulong init, ulong end) {
-  data_type pivot = *(v[0]);
-  ulong i = init - 1;
+long partition(Vector<data_type> &v, ulong init, ulong end) {
+  data_type pivot = v[0];
+  long i = init - 1;
 
-  for (ulong j = init; j <= end - 1; j++) {
+  for (long j = init; j <= end - 1; j++) {
     if (v[j] < pivot) {
       i++;
       std::swap(v[i], v[j]);
@@ -20,9 +20,9 @@ ulong partition(Vector<data_type> &v, ulong init, ulong end) {
 }
 
 template<class data_type>
-void recursive_quick_sort(Vector<data_type> &v, ulong init, ulong end) {
+void recursive_quick_sort(Vector<data_type> &v, long init, ulong end) {
   if (init < end) {
-    ulong pivot = partition(v, init, end);
+    long pivot = partition(v, init, end);
 
     recursive_quick_sort(v, init, pivot - 1);
     recursive_quick_sort(v, pivot + 1, end);

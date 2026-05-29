@@ -18,7 +18,8 @@ public:
 
   VectorCT &operator=(const VectorCT &v2);
 
-  vector_data_type operator[](ulong index);
+  vector_data_type &operator[](ulong index);
+  const vector_data_type &operator[](ulong index) const;
 
   ulong get_size() const { return size_; };
 
@@ -69,7 +70,12 @@ VectorCT &VectorCT::operator=(const VectorCT &v2) {
 }
 
 template<class vector_data_type>
-vector_data_type VectorCT::operator[](ulong index) {
+vector_data_type &VectorCT::operator[](ulong index) {
+  return *(data_ + index);
+}
+
+template<class vector_data_type>
+const vector_data_type &VectorCT::operator[](ulong index) const {
   return *(data_ + index);
 }
 #endif // !CLASES_VECTOR_HPP

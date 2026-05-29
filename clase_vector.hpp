@@ -18,6 +18,10 @@ public:
 
   VectorCT &operator=(const VectorCT &v2);
 
+  vector_data_type operator[](ulong index);
+
+  ulong get_size() const { return size_; };
+
   friend std::ostream &operator<<(std::ostream &os, const VectorCT &v) {
     for (ulong i = 0; i < v.size_; i++) {
       os << *(v.data_ + i) << " ";
@@ -62,5 +66,10 @@ VectorCT &VectorCT::operator=(const VectorCT &v2) {
     *(data_ + i) = *(v2.data_ + i);
   }
   return *this;
+}
+
+template<class vector_data_type>
+vector_data_type VectorCT::operator[](ulong index) {
+  return *(data_ + index);
 }
 #endif // !CLASES_VECTOR_HPP
